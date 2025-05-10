@@ -1,0 +1,128 @@
+/* Login page styles */
+.login-container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #15202b;
+  padding: 20px;
+}
+
+.login-card {
+  background-color: #192734;
+  border-radius: 16px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 450px;
+  padding: 2rem;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.login-header h1 {
+  color: #1da1f2;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.login-header h2 {
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-size: 1rem;
+  color: #8899a6;
+  font-weight: 500;
+}
+
+.form-group input {
+  padding: 0.8rem 1rem;
+  border-radius: 4px;
+  border: 1px solid #38444d;
+  background-color: #253341;
+  color: #fff;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #1da1f2;
+  box-shadow: 0 0 0 2px rgba(29, 161, 242, 0.2);
+}
+
+.error-message {
+  color: #e0245e;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  padding: 0.8rem;
+  background-color: rgba(224, 36, 94, 0.1);
+  border-radius: 4px;
+  border-left: 3px solid #e0245e;
+}
+
+.success-message {
+  color: #17bf63;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  padding: 0.8rem;
+  background-color: rgba(23, 191, 99, 0.1);
+  border-radius: 4px;
+  border-left: 3px solid #17bf63;
+}
+
+.login-button {
+  background-color: #1da1f2;
+  color: #fff;
+  border: none;
+  border-radius: 9999px;
+  padding: 0.8rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 0.5rem;
+}
+
+.login-button:hover {
+  background-color: #1a91da;
+}
+
+.login-footer {
+  margin-top: 1.5rem;
+  text-align: center;
+  color: #8899a6;
+}
+
+.toggle-button {
+  background: none;
+  border: none;
+  color: #1da1f2;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0 0.3rem;
+  font-weight: 600;
+}
+
+.toggle-button:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,1313 @@
+/* Twitter-like styling for all content (posts and comments) */
+
+/* Media content styles */
+.twitter-media-container {
+  margin: 10px 0;
+  border-radius: 16px;
+  overflow: hidden;
+  max-height: 500px;
+  min-height: 100px; /* Ensure container has some height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #192734;
+}
+
+.twitter-media-container.loading {
+  height: 200px;
+  background-color: rgba(25, 39, 52, 0.6);
+}
+
+.loading-indicator {
+  color: #1da1f2;
+  font-size: 14px;
+  padding: 10px;
+  text-align: center;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+.twitter-media {
+  width: 100%;
+  object-fit: contain;
+}
+
+.twitter-media.video {
+  width: 100%;
+  max-width: 100%;
+  background-color: #000;
+}
+
+/* Post menu styles */
+.post-menu {
+  margin-left: auto;
+  position: relative;
+}
+
+.post-menu-button {
+  background: none;
+  border: none;
+  color: #8899a6;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.post-menu-button:hover {
+  background-color: rgba(29, 161, 242, 0.1);
+  color: #1da1f2;
+}
+
+.post-menu-dropdown {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background-color: #15202b;
+  border: 1px solid #38444d;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+  width: 150px;
+  overflow: hidden;
+}
+
+.post-menu-dropdown button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 12px 16px;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 14px;
+}
+
+.post-menu-dropdown button:hover {
+  background-color: #1a2836;
+}
+
+.post-menu-dropdown button:first-child {
+  border-bottom: 1px solid #38444d;
+}
+
+/* Post editing styles */
+.editing-container {
+  margin: 0.8rem 0;
+  width: 100%;
+}
+
+.edit-post-textarea {
+  width: 97%;
+  min-height: 80px;
+  background-color: #253341;
+  border: 1px solid #38444d;
+  border-radius: 8px;
+  padding: 12px;
+  color: #fff;
+  resize: vertical;
+  margin-bottom: 10px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.edit-post-textarea:focus {
+  border-color: #1da1f2;
+  outline: none;
+}
+
+.edit-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.cancel-edit-button, .save-edit-button {
+  padding: 8px 16px;
+  border-radius: 9999px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border: none;
+}
+
+.cancel-edit-button {
+  background-color: transparent;
+  color: #1da1f2;
+  border: 1px solid #1da1f2;
+}
+
+.cancel-edit-button:hover {
+  background-color: rgba(29, 161, 242, 0.1);
+}
+
+.save-edit-button {
+  background-color: #1da1f2;
+  color: #fff;
+}
+
+.save-edit-button:hover {
+  background-color: #1a91da;
+}
+.feed {
+  padding: 2rem 1rem 1rem 1rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 600px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* Special case for post detail page feed container */
+.feed > .back-button {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.twitter-item {
+  width: 100%;
+  max-width: 600px;
+  background: #192734;
+  border: 1px solid #38444d;
+  margin: 0.75rem auto;
+  padding: 1rem;
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+
+.twitter-item + .twitter-item {
+  border-top: none;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  margin-top: 0;
+}
+
+.twitter-header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.8rem;
+}
+
+.twitter-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+  object-fit: cover;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.twitter-avatar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 0 3px rgba(29, 161, 242, 0.2);
+}
+
+.twitter-avatar.reply {
+  width: 40px;
+  height: 40px;
+}
+
+.twitter-user {
+  font-weight: bold;
+  color: #fff;
+  transition: color 0.2s ease;
+}
+
+.twitter-user:hover {
+  color: #1da1f2;
+  text-decoration: underline;
+}
+
+.twitter-cont.feed-title {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.twitter-content {
+  margin: 0.8rem 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #fff;
+}
+
+.twitter-media {
+  width: 100%;
+  max-height: 400px; /* Fixed height for all media */
+  object-fit: cover;
+  border-radius: 12px;
+  margin: 0.8rem 0;
+}
+
+.twitter-actions {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #38444d;
+}
+
+.twitter-button {
+  background: none;
+  border: none;
+  color: #8899a6;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 9999px;
+}
+
+.twitter-button:hover {
+  color: #1da1f2;
+  background-color: #1da1f215;
+}
+
+.twitter-button.reply:hover {
+  color: #1da1f2;
+  background-color: #1da1f215;
+}
+
+.twitter-button.like:hover {
+  color: #e0245e;
+  background-color: #e0245e15;
+}
+
+.twitter-button.repost:hover {
+  color: #17bf63;
+  background-color: #17bf6315;
+}
+
+.twitter-button svg {
+  transition: all 0.2s;
+}
+
+/* Comment section specific styling */
+.comments-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Nested comments within a post */
+.nested-comments {
+  margin-top: 1rem;
+  border-top: 1px solid #38444d;
+}
+
+.comments-header {
+  padding: 1rem 0 0.5rem 0;
+  font-weight: bold;
+  color: #fff;
+}
+
+.comment-list {
+  padding: 0;
+}
+
+.comment-item {
+  padding: 1rem 0;
+  border-bottom: 1px solid #38444d;
+}
+
+.comment-item:last-child {
+  border-bottom: none;
+}
+
+.comment-placeholder {
+  padding: 1rem 0;
+  color: #8899a6;
+  font-style: italic;
+}
+
+.reply-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #8899a6;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+/* Reused button styles */
+.post-button {
+  background: #1da1f2;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 9999px;
+  font-weight: bold;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.post-button:hover {
+  background: #1a91da;
+}
+
+.post-button:disabled {
+  background: #1da1f280;
+  cursor: default;
+}
+
+/* Back button */
+.back-button {
+  background: none;
+  border: none;
+  color: #1da1f2;
+  cursor: pointer;
+  padding: 0.6rem 1.2rem;
+  border-radius: 9999px;
+  font-weight: bold;
+  font-size: 0.95rem;
+  transition: background 0.2s;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: fit-content;
+}
+
+.back-button:hover {
+  background-color: #1da1f215;
+}
+
+/* New Post styles */
+.new-post {
+  width: 100%;
+  max-width: 600px;
+  background: #192734;
+  border: 1px solid #38444d;
+  margin: 0.75rem auto;
+  padding: 1rem;
+  border-radius: 12px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.new-post-content {
+  display: flex;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #38444d;
+}
+
+.new-post textarea {
+  width: 100%;
+  min-height: 120px;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+  resize: none;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.new-post textarea::placeholder {
+  color: #8899a6;
+  font-style: italic;
+  opacity: 0.8;
+}
+
+.new-post-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.5rem;
+}
+
+.media-button {
+  background: none;
+  border: none;
+  color: #1da1f2;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.media-button:hover {
+  background-color: #1da1f215;
+}
+
+.media-input {
+  position: absolute;
+  bottom: 60px;
+  left: 0;
+  right: 0;
+  background: #253341;
+  padding: 1rem;
+  border-radius: 8px;
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.media-input input, .media-input select {
+  padding: 8px;
+  background-color: #192734;
+  border: 1px solid #38444d;
+  border-radius: 4px;
+  color: #fff;
+}
+
+.media-input input {
+  flex-grow: 1;
+}
+
+.media-preview {
+  margin: 10px 0;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  max-height: 250px;
+  display: flex;
+  justify-content: center;
+  border: 1px solid #38444d;
+}
+
+.media-preview img,
+.media-preview video {
+  max-width: 100%;
+  max-height: 250px;
+  object-fit: contain;
+  background-color: #000;
+}
+
+.remove-media-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(0, 0, 0, 0.7);
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: white;
+}
+
+.remove-media-button:hover {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+/* Modal styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #192734;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  border-radius: 16px;
+  position: relative;
+  overflow-y: auto;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.modal-close:hover {
+  background-color: #253341;
+}
+
+.modal-post {
+  padding: 1rem;
+  border-bottom: 1px solid #38444d;
+}
+
+.comments-section {
+  padding: 1rem;
+}
+
+.comments-list {
+  margin-bottom: 1rem;
+}
+
+.comment {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid #38444d;
+}
+
+.comment-content {
+  flex: 1;
+}
+
+.comment-user {
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 0.4rem;
+  display: inline-block;
+}
+
+.new-comment-form {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem;
+  border-top: 1px solid #38444d;
+  background: #192734;
+  position: sticky;
+  bottom: 0;
+}
+
+.new-comment-form input {
+  flex: 1;
+  background: #253341;
+  border: 1px solid #38444d;
+  border-radius: 50px;
+  padding: 0.8rem;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.new-comment-form button {
+  background: #1da1f2;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 9999px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.new-comment-form button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Bookmarks page styles */
+.feed-title {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
+  align-self: flex-start;
+}
+
+.empty-bookmarks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  margin: 2rem auto;
+  border-radius: 12px;
+  background-color: #192734;
+  color: #fff;
+  width: 100%;
+  max-width: 600px;
+  box-sizing: border-box;
+}
+
+.empty-bookmarks svg {
+  margin-bottom: 1.5rem;
+}
+
+.empty-bookmarks p {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.empty-bookmarks .empty-subtitle {
+  color: #8899a6;
+  font-size: 0.9rem;
+}
+
+/* Profile page styles */
+.profile-header {
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 1rem;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #192734;
+  border: 1px solid #38444d;
+}
+
+.profile-banner {
+  height: 200px;
+  background-color: #1da1f2;
+  background-image: linear-gradient(45deg, #1da1f2, #9bd1f9);
+  background-size: cover;
+  background-position: center;
+}
+
+.profile-info {
+  padding: 1rem;
+  position: relative;
+}
+
+.profile-avatar {
+  position: absolute;
+  top: -75px;
+  left: 1rem;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 4px solid #15202b;
+  overflow: hidden;
+  background-color: #192734;
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-info h2 {
+  margin-top: 85px;
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.profile-bio {
+  color: white;
+  margin: 0.5rem 0 1rem 0;
+}
+
+.profile-bio-container {
+  width: 97%;
+  margin: 0.5rem 0 1rem 0;
+}
+
+.profile-bio-display {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.profile-bio-display .profile-bio {
+  margin: 0;
+  flex: 1;
+}
+
+.edit-bio-btn {
+  background: none;
+  border: none;
+  color: #8899a6;
+  cursor: pointer;
+  padding: 2px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  opacity: 0.6;
+}
+
+.edit-bio-btn:hover {
+  background-color: rgba(29, 161, 242, 0.1);
+  color: #1da1f2;
+  opacity: 1;
+}
+
+.profile-follow-counts {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  color: #8899a6;
+  font-size: 0.9rem;
+}
+
+.follow-count strong {
+  color: #fff;
+  margin-right: 0.3rem;
+}
+
+/* Edit Profile Modal Styles */
+.edit-profile-modal {
+  max-width: 600px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #38444d;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 2rem;
+  margin-left: 1rem;
+  color: #fff;
+}
+
+.edit-profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.banner-preview {
+  width: 100%;
+  height: 150px;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+}
+
+.banner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.banner-preview:hover .banner-overlay {
+  opacity: 1;
+}
+
+.banner-overlay svg {
+  margin-bottom: 0.5rem;
+}
+
+.profile-picture-container {
+  margin-top: -40px;
+  margin-left: .5rem;
+  position: relative;
+  z-index: 10;
+}
+
+.profile-picture-preview {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 4px solid #15202b;
+  position: relative;
+  cursor: pointer;
+  background-color: #192734;
+}
+
+.profile-picture-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.profile-picture-preview:hover .profile-picture-overlay {
+  opacity: 1;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  margin-left: .5rem;
+  color: #8899a6;
+}
+
+.form-group input, .form-group textarea {
+  background-color: #192734;
+  border: 1px solid #38444d;
+  border-radius: 5px;
+  padding: 12px;
+  color: #fff;
+  font-size: 1rem;
+  width: 95%;
+  font-family: inherit;
+}
+
+.form-group input:focus, .form-group textarea:focus {
+  border-color: #1da1f2;
+  outline: none;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.char-count {
+  position: absolute;
+  bottom: 8px;
+  right: 12px;
+  font-size: 0.8rem;
+  color: #8899a6;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.cancel-button, .save-button {
+  padding: 8px 16px;
+  border-radius: 9999px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.cancel-button {
+  background: none;
+  border: 1px solid #38444d;
+  color: #8899a6;
+}
+
+.cancel-button:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.save-button {
+  background-color: #1da1f2;
+  border: none;
+  color: #fff;
+}
+
+.save-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.profile-stats {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.edit-profile-button, .add-friend-button {
+  background: none;
+  border: 1px solid #38444d;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.edit-profile-button:hover, .add-friend-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.add-friend-button.is-friend {
+  background-color: rgba(29, 161, 242, 0.2);
+  border-color: #1da1f2;
+  color: #1da1f2;
+}
+
+.add-friend-button.is-friend:hover {
+  background-color: rgba(29, 161, 242, 0.1);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-value {
+  font-weight: bold;
+  color: #fff;
+}
+
+.stat-label {
+  color: #8899a6;
+  font-size: 0.8rem;
+}
+
+.profile-tabs {
+  display: flex;
+  width: 100%;
+  max-width: 600px;
+  border-bottom: 1px solid #38444d;
+  margin-bottom: 1rem;
+}
+
+.profile-tab {
+  flex: 1;
+  background: none;
+  border: none;
+  color: #8899a6;
+  padding: 1rem 0;
+  cursor: pointer;
+  font-weight: bold;
+  position: relative;
+  transition: color 0.2s;
+}
+
+.profile-tab:hover {
+  color: #fff;
+  background-color: rgba(29, 161, 242, 0.1);
+}
+
+.profile-tab.active {
+  color: #1da1f2;
+}
+
+.profile-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  width: 100%;
+  background-color: #1da1f2;
+  border-radius: 4px 4px 0 0;
+}
+
+.profile-content {
+  width: 100%;
+  max-width: 600px;
+}
+
+.empty-content {
+  text-align: center;
+  padding: 2rem;
+  color: #8899a6;
+  background-color: #192734;
+  border-radius: 12px;
+  margin-top: 1rem;
+}
+
+.comment-card {
+  width: 100%;
+  background: #192734;
+  border: 1px solid #38444d;
+  margin: 0.75rem 0;
+  padding: 1rem;
+  border-radius: 12px;
+}
+
+.comment-card-header {
+  color: #8899a6;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.comment-card-content {
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+.comment-card-post-preview {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 0.75rem;
+}
+
+.post-preview-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.post-preview-header img {
+  width: 32px;
+  height: 32px;
+}
+
+.post-preview-header span {
+  font-weight: bold;
+  color: #fff;
+}
+
+.post-preview-content {
+  color: #8899a6;
+  font-size: 0.9rem;
+  margin: 0;
+  overflow-wrap: break-word;
+}
+
+/* --- Add styles for Post Detail Media --- */
+.post-detail-media .post-image,
+.post-detail-media .post-video {
+  display: block; /* Ensure media takes block layout */
+  max-width: 100%; /* Prevent media from overflowing container */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 15px; /* Rounded corners */
+  margin-top: 10px; /* Space above the media */
+  border: 1px solid #e1e8ed; /* Subtle border like Twitter */
+}
+
+.post-detail-media .media-item + .media-item {
+  margin-top: 10px; /* Add space between multiple media items */
+}
+
+/* Styles for Comment Delete Menu */
+.comment-item .post-menu {
+  /* Position relative to the comment item */
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.small-menu-button {
+  background: none;
+  border: none;
+  padding: 2px;
+  cursor: pointer;
+  color: #8899a6; /* Match post menu button color */
+  line-height: 1; /* Ensure icon is centered */
+}
+
+.small-menu-button:hover {
+  background-color: rgba(29, 161, 242, 0.1); /* Light blue background on hover */
+  border-radius: 50%;
+}
+
+.comment-delete-menu {
+  position: absolute;
+  top: 100%; /* Position below the button */
+  right: 0;
+  background-color: #15202b; /* Match post menu background */
+  border: 1px solid #38444d; /* Match post menu border */
+  border-radius: 8px; /* Match post menu radius */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Match post menu shadow */
+  z-index: 10; /* Ensure it's above other elements */
+  width: 150px; /* Match post menu width */
+  overflow: hidden; /* Match post menu overflow */
+}
+
+.comment-delete-menu button {
+  display: block;
+  width: 100%;
+  padding: 12px 16px;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: #fff;
+  font-weight: 500;
+}
+
+.comment-delete-menu button:hover {
+  background-color: #f5f8fa;
+}
+
+/* Comment Input Specific Styles */
+.comment-input-container {
+  padding: 1rem;
+  border-bottom: 1px solid #38444d;
+  background: #192734;
+  border: 1px solid #38444d;
+  border-radius: 12px;
+  margin: 0.75rem auto;
+  width: 100%;
+  max-width: 600px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.comment-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+  resize: none;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.comment-input::placeholder {
+  color: #8899a6;
+  font-style: italic;
+  opacity: 0.8;
+}
+
+.comment-input:focus {
+  outline: none;
+  border-color: #1da1f2;
+}
+
+.comment-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.5rem;
+}
+
+.comment-button {
+  background: #1da1f2;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 9999px;
+  font-weight: bold;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.comment-button:hover {
+  background: #1a91da;
+}
+
+.comment-button:disabled {
+  background: #1da1f280;
+  cursor: default;
+}
+
+.comment-timestamp {
+  font-size: 0.8rem;
+  color: #657786;
+}
+
+/* Style for comment avatars in profile tabs */
+.comment-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px; /* Add some space like the twitter-avatar */
+}
+
+/* Styles for Profile Comment Item wrapper */
+.profile-comment-wrapper {
+  border-bottom: 1px solid #38444d; /* Separator like posts */
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+.profile-comment-wrapper:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+/* Styles for the user's comment part */
+.user-comment-section {
+  display: flex;
+  align-items: flex-start; /* Align items to the top */
+  padding: 0.5rem 1rem; /* Add some padding around the comment */
+  margin-bottom: 0.5rem; /* Space between comment and the post */
+  background-color: #192734; /* Slightly different background */
+  border-radius: 8px;
+}
+
+.user-comment-section .comment-avatar {
+  margin-top: 2px; /* Align avatar slightly better */
+}
+
+.user-comment-section .comment-details {
+  margin-left: 10px; /* Space between avatar and text */
+}
+
+.user-comment-section .comment-context-label {
+  font-size: 0.9rem;
+  color: #8899a6; /* Lighter text color */
+  display: block;
+  margin-bottom: 4px;
+}
+
+.user-comment-section .comment-text {
+  margin: 0;
+  color: #fff; /* White text for the comment */
+  font-size: 0.95rem;
+}
+
+/* Styles for the post that was commented on */
+.commented-on-post-section .twitter-post {
+  border: none; /* Remove border from nested post if needed */
+  padding-bottom: 0;
+  margin-bottom: 0;
+}

@@ -1,0 +1,319 @@
+.navbar {
+  width: 210px;
+  min-height: 100vh;
+  background: #192734;
+  border-right: 1.5px solid #38444d;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-top: 3rem;
+  padding-left: 12px;
+  padding-right: 12px;
+  position: sticky;
+  top: 0;
+  justify-content: space-between;
+}
+
+
+.nav-main-items {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.nav-settings {
+  margin-top: auto;
+  position: relative;
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+/* Fix to ensure navbar is always visible */
+@keyframes keepVisible {
+  0% { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+/* Mobile styles */
+@media (max-width: 767px) {
+  .navbar {
+    position: fixed !important;
+    top: auto !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    height: 50px !important;
+    min-height: auto !important;
+    flex-direction: row !important;
+    justify-content: space-evenly !important; /* Evenly space ALL navbar items */
+    align-items: center !important;
+    padding: 0 !important;
+    border-right: none !important;
+    border-top: 1.5px solid #38444d !important;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2) !important;
+    background: #15202b !important;
+    z-index: 9999 !important; /* Higher z-index to ensure it stays on top */
+    transition: none !important; /* Prevent any animations that might affect positioning */
+    transform: none !important; /* Prevent transform animations */
+    opacity: 1 !important; /* Ensure it's visible */
+    visibility: visible !important; /* Ensure it's visible */
+    display: flex !important; /* Force display */
+    pointer-events: auto !important; /* Ensure it's clickable */
+    animation: keepVisible 0.1s infinite !important; /* Keep it visible */
+    will-change: transform !important; /* Hardware acceleration */
+    backface-visibility: hidden !important; /* Prevent flickering */
+    -webkit-backface-visibility: hidden !important;
+    -webkit-transform: translateZ(0) scale(1.0, 1.0) !important;
+    transform: translateZ(0) scale(1.0, 1.0) !important;
+  }
+  
+  /* For mobile, flatten all navbar items into one row */
+  .nav-main-items {
+    flex-direction: row;
+    justify-content: flex-start;
+    flex: 0 0 auto;
+    width: auto;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    display: contents; /* This flattens the div so all children become direct children of navbar */
+  }
+  
+  .nav-settings {
+    margin-top: 0;
+    position: static;
+    margin-bottom: 0;
+    display: contents; /* This flattens the div so all children become direct children of navbar */
+    width: auto;
+  }
+  
+  .nav-btn {
+    flex-direction: column;
+    margin-bottom: 0;
+    padding: 0.9rem;
+    justify-content: center;
+    min-width: auto;
+  }
+  
+  .nav-label {
+    display: none; /* Hide text labels on mobile */
+  }
+  
+  .nav-icon {
+    margin-right: 0;
+    margin-bottom: 0;
+  }
+  
+  .nav-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .settings-dropdown {
+    bottom: 50px;
+    top: auto;
+    right: 0;
+    left: auto;
+  }
+}
+
+/* Extra narrow mobile screens (320px to 425px) */
+@media (max-width: 425px) {
+  .nav-icon svg {
+    width: 22px !important;
+    height: 22px !important;
+  }
+  
+
+  
+  /* Ensure settings icon is always visible */
+  .nav-settings {
+    display: flex !important;
+  }
+  
+  .nav-main-items {
+    justify-content: space-around;
+    width: 80%;
+  }
+  
+  .nav-settings {
+    width: 20%;
+  }
+}
+
+/* Extremely narrow screens (320px) */
+@media (max-width: 320px) {
+  .navbar {
+    padding: 0;
+    height: 45px;
+  }
+  
+  .nav-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .nav-btn {
+    padding: 0.3rem 0.4rem;
+  }
+  
+  .nav-main-items {
+    justify-content: space-between;
+    padding: 0 5px;
+  }
+}
+
+/* Tablet-specific styles - only applies between 768px and 1023px */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .navbar {
+    width: 170px; /* Shrink from 210px to 170px for tablets */
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  
+  .nav-main-items {
+    width: 100%;
+  }
+}
+
+
+.nav-btn {
+  background: none;
+  border: none;
+  color: #d9d9d9;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 2.2rem;
+  cursor: pointer;
+  transition: color 0.2s, background 0.2s;
+  font-size: 1rem;
+  width: 100%;
+  border-radius: 12px;
+  padding: 0.6rem 3rem 0.6rem 0;
+  gap: 1.1rem;
+}
+
+
+
+.nav-btn:hover, .nav-btn:focus {
+  background: #22303c;
+  color: #1da1f2;
+}
+
+.nav-icon {
+  margin-bottom: 0.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+@media (max-width: 767px) {
+  .nav-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .settings-btn .nav-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+
+.nav-label {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  margin-top: 0.1rem;
+}
+
+.settings-dropdown {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  background-color: #15202b;
+  border: 1px solid #38444d;
+  border-radius: 8px;
+  box-shadow: 0 -8px 16px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+
+.settings-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  padding: 12px 16px;
+  background: none;
+  border: none;
+  color: #e0245e;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 16px;
+}
+
+.settings-item:hover {
+  background-color: #1a2836;
+}
+
+.settings-item svg {
+  flex-shrink: 0;
+}
+
+@media (max-width: 767px) {
+  .navbar {
+    position: static;
+    width: 100vw;
+    height: auto;
+    flex-direction: row;
+    justify-content: space-around;
+    border-left: none;
+    border-top: 1.5px solid #38444d;
+    box-shadow: 0 -2px 8px #0002;
+    padding: 0.5rem 0;
+  }
+  
+  .nav-main-items {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 80%;
+  }
+  
+  .nav-settings {
+    margin-top: 0;
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0;
+  }
+  
+  .settings-dropdown {
+    bottom: auto;
+    top: 100%;
+    left: 0;
+    right: auto;
+    margin-bottom: 0;
+    margin-top: 8px;
+    width: 150px;
+  }
+  
+  .nav-btn {
+    margin-bottom: 0;
+    flex-direction: column;
+    padding: 0.4rem 0.5rem;
+  }
+}
