@@ -3,82 +3,86 @@ import Post from './Post';
 import CommentSection from './CommentSection';
 import NewPost from './NewPost';
 import { useAuth } from '../context/AuthContext';
-import { getPosts, getProfilesByIds, toggleLike, toggleRepost, createPost, createQuotePost, updatePost, deletePost, getComments, toggleBookmark, addComment } from '../../supabase';
+import { getPosts, toggleLike, toggleRepost, createPost, createQuotePost, updatePost, deletePost, toggleBookmark, addComment } from '../../supabase';
 
 const Feed = () => {
   const [posts, setPosts] = useState([]);
-  const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
   const { currentUser } = useAuth();
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      console.log('[Feed] Starting to fetch posts...');
-      try {
+  const fetchPosts = async (page = 0, append = false) => {
+    console.log('[Feed] Starting to fetch posts...', { page, append });
+    try {
+      if (page === 0) {
         setLoading(true);
-        const { data: postsData, error: postsError } = await getPosts(currentUser?.id);
-        console.log('[Feed] Posts data received:', postsData);
-
-        if (postsError) {
-          setError('Error loading posts');
-          console.error('Error fetching posts:', postsError);
-          return;
-        }
-
-        const userIds = new Set();
-        postsData.forEach(post => {
-          userIds.add(post.user_id);
-          if (post.quoted_post?.user_id) {
-            userIds.add(post.quoted_post.user_id);
-          }
-        });
-
-        const { data: profilesData, error: profilesError } = await getProfilesByIds([...userIds]);
-
-        if (profilesError) {
-          setError('Error loading user profiles');
-          console.error('Error fetching profiles:', profilesError);
-        }
-
-        console.log('[Feed] Profiles data received:', profilesData);
-
-        // Create a map of profiles for easy lookup
-        const profilesMap = new Map();
-        profilesData?.forEach(profile => {
-          profilesMap.set(profile.id, profile);
-        });
-        
-        console.log('[Feed] Profiles map created:', [...profilesMap.entries()]);
-
-        const postsWithProfiles = postsData.map(post => {
-          const bookmarksArray = post.bookmarks || [];
-          const fetchedComments = post.comments || []; // Get comments array
-          return {
-            ...post,
-            profiles: profilesMap.get(post.user_id) || { id: post.user_id },
-            quoted_post: post.quoted_post ? {
-              ...post.quoted_post,
-              profiles: profilesMap.get(post.quoted_post.user_id) || { id: post.quoted_post.user_id }
-            } : null,
-            likes: post.likes?.map(like => like.user_id) || [],
-            reposts: post.reposts?.map(repost => repost.user_id) || [],
-            media: post.media || [],
-            comments: fetchedComments, // Store the full array
-            comment_count: fetchedComments.length, // Calculate comment_count
-            bookmarks: bookmarksArray
-          };
-        });
-
-        setPosts(postsWithProfiles);
-      } catch (err) {
-        setError('An unexpected error occurred');
-        console.error('Unexpected error:', err);
-      } finally {
-        setLoading(false);
+      } else {
+        setLoadingMore(true);
       }
-    };
+      
+      const { data: postsData, error: postsError } = await getPosts(currentUser?.id, page);
+      console.log('[Feed] Posts data received:', postsData);
 
+      if (postsError) {
+        setError('Error loading posts');
+        console.error('Error fetching posts:', postsError);
+        return;
+      }
+
+      // Process posts with simplified logic since profiles are already included
+      const processedPosts = postsData.map(post => {
+        const bookmarksArray = post.bookmarks || [];
+        const fetchedComments = post.comments || [];
+        return {
+          ...post,
+          likes: post.likes?.map(like => like.user_id) || [],
+          reposts: post.reposts?.map(repost => repost.user_id) || [],
+          media: post.media || [],
+          comments: fetchedComments,
+          comment_count: fetchedComments.length,
+          bookmarks: bookmarksArray,
+          quoted_post: post.quoted_post ? {
+            ...post.quoted_post,
+            likes: post.quoted_post.likes?.map(like => like.user_id) || [],
+            reposts: post.quoted_post.reposts?.map(repost => repost.user_id) || [],
+            media: post.quoted_post.media || [],
+            comments: post.quoted_post.comments || [],
+            comment_count: post.quoted_post.comments?.length || 0,
+            bookmarks: post.quoted_post.bookmarks || []
+          } : null
+        };
+      });
+
+      if (append) {
+        setPosts(prev => [...prev, ...processedPosts]);
+      } else {
+        setPosts(processedPosts);
+      }
+
+      // Check if we have more posts to load
+      setHasMore(processedPosts.length === 20);
+      
+    } catch (err) {
+      setError('An unexpected error occurred');
+      console.error('Unexpected error:', err);
+    } finally {
+      setLoading(false);
+      setLoadingMore(false);
+    }
+  };
+
+  const loadMorePosts = () => {
+    if (!loadingMore && hasMore) {
+      const nextPage = currentPage + 1;
+      setCurrentPage(nextPage);
+      fetchPosts(nextPage, true);
+    }
+  };
+
+  useEffect(() => {
     fetchPosts();
   }, [currentUser]);
 
@@ -393,25 +397,39 @@ const Feed = () => {
           <p>No posts yet. Be the first to post!</p>
         </div>
       ) : (
-        posts.map(post => (
-          <Post
-            key={post.id}
-            post={post}
-            user={post.profiles}
-            onLike={handleLike}
-            onBookmark={handleBookmark}
-            onRepost={handleRepost}
-            onQuotePostSubmit={handleQuotePostSubmit}
-            onEdit={handleEditPost}
-            onDelete={handleDeletePost}
-            liked={post.likes.includes(currentUser?.id)}
-            reposted={post.reposts.includes(currentUser?.id)}
-            isBookmarked={post.bookmarks?.some(b => b.user_id === currentUser?.id)}
-            isOwner={post.user_id === currentUser?.id}
-            comments={post.comments || []}
-            onAddComment={handleAddComment}
-          />
-        ))
+        <>
+          {posts.map(post => (
+            <Post
+              key={post.id}
+              post={post}
+              user={post.profiles}
+              onLike={handleLike}
+              onBookmark={handleBookmark}
+              onRepost={handleRepost}
+              onQuotePostSubmit={handleQuotePostSubmit}
+              onEdit={handleEditPost}
+              onDelete={handleDeletePost}
+              liked={post.likes.includes(currentUser?.id)}
+              reposted={post.reposts.includes(currentUser?.id)}
+              isBookmarked={post.bookmarks?.some(b => b.user_id === currentUser?.id)}
+              isOwner={post.user_id === currentUser?.id}
+              comments={post.comments || []}
+              onAddComment={handleAddComment}
+            />
+          ))}
+          
+          {hasMore && (
+            <div className="load-more-container">
+              <button 
+                className="load-more-button" 
+                onClick={loadMorePosts}
+                disabled={loadingMore}
+              >
+                {loadingMore ? 'Loading...' : 'Load More Posts'}
+              </button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

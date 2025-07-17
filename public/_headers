@@ -1,0 +1,23 @@
+# Cache static assets for 1 year
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Cache images for 1 month
+*.jpg
+  Cache-Control: public, max-age=2592000
+*.jpeg
+  Cache-Control: public, max-age=2592000
+*.png
+  Cache-Control: public, max-age=2592000
+*.webp
+  Cache-Control: public, max-age=2592000
+*.avif
+  Cache-Control: public, max-age=2592000
+
+# HTML files should not be cached
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Service worker should not be cached
+/sw.js
+  Cache-Control: public, max-age=0, must-revalidate

@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { toggleBookmark } from '../../supabase';
 
-const Post = ({ post, user, onLike, onRepost, onQuotePostSubmit, onEdit, onDelete, liked, reposted, isBookmarked, onBookmark, isOwner, children, comments, onAddComment }) => {
+const Post = ({ post, onLike, onRepost, onQuotePostSubmit, onEdit, onDelete, liked, reposted, isBookmarked, onBookmark, isOwner, children, onAddComment }) => {
   
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -86,7 +86,7 @@ const Post = ({ post, user, onLike, onRepost, onQuotePostSubmit, onEdit, onDelet
         return;
       }
       
-      setIsBookmarked(action === 'bookmarked');
+      onBookmark(post.id);
       console.log(`Post ${post.id} ${action}`);
     } catch (e) {
       console.error('Error in handleBookmark:', e);
@@ -233,8 +233,9 @@ const Post = ({ post, user, onLike, onRepost, onQuotePostSubmit, onEdit, onDelet
             return (
               <img 
                 src={fixedUrl} 
-                alt="post media" 
+                alt={`Image from ${post.profiles?.name || 'user'}'s post`}
                 className="twitter-media" 
+                loading="lazy"
                 onError={(e) => {
                   console.error('Error loading image:', e);
                   console.log('Image URL that failed:', fixedUrl);
@@ -307,6 +308,7 @@ const Post = ({ post, user, onLike, onRepost, onQuotePostSubmit, onEdit, onDelet
           src={post.profiles?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.profiles?.name || 'User')}&background=random`} 
           alt={`${post.profiles?.name || 'User'} avatar`}
           className="twitter-avatar" 
+          loading="lazy"
           onClick={(e) => {
             e.stopPropagation();
             navigate(`/profile/${post.profiles?.id}`);

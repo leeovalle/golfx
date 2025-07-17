@@ -267,9 +267,13 @@ export const updateProfile = async (userId, updates) => {
 };
 
 // Posts
-export const getPosts = async (currentUserId) => {
-  console.log('[supabase] Fetching posts for user:', currentUserId);
+export const getPosts = async (currentUserId, page = 0, pageSize = 20) => {
+  console.log('[supabase] Fetching posts for user:', currentUserId, 'page:', page, 'pageSize:', pageSize);
   console.log('[supabase] Starting posts query...');
+  
+  const startRange = page * pageSize;
+  const endRange = startRange + pageSize - 1;
+  
   const query = supabase
     .from('posts')
     .select(`
@@ -277,6 +281,7 @@ export const getPosts = async (currentUserId) => {
       user_id,
       content,
       created_at,
+      profiles:user_id(id, name, avatar_url),
       media:media(id, media_url, media_type),
       likes:likes(user_id),
       reposts:reposts(user_id, created_at),
@@ -288,6 +293,7 @@ export const getPosts = async (currentUserId) => {
         user_id,
         content,
         created_at,
+        profiles:user_id(id, name, avatar_url),
         media:media(id, media_url, media_type),
         likes:likes(user_id),
         reposts:reposts(user_id, created_at),
@@ -295,7 +301,8 @@ export const getPosts = async (currentUserId) => {
         bookmarks:bookmarks(user_id)
       )
     `)
-    .order('created_at', { ascending: false });
+    .order('created_at', { ascending: false })
+    .range(startRange, endRange);
  
   let { data: posts, error } = await query;
 
@@ -591,62 +598,48 @@ export const getBookmarkedPosts = async (userId) => {
   }
 
   try {
-    // 1. Get the IDs of the posts bookmarked by the user
-    const { data: bookmarkData, error: bookmarkError } = await supabase
-      .from('bookmarks')
-      .select('post_id')
-      .eq('user_id', userId);
-
-    if (bookmarkError) {
-      console.error("Error fetching bookmark IDs:", bookmarkError);
-      throw bookmarkError;
-    }
-
-    const postIds = bookmarkData.map(b => b.post_id);
-
-    if (!postIds || postIds.length === 0) {
-      // No bookmarks found, return empty array
-      return { data: [], error: null };
-    }
-
-    // 2. Fetch the full post details for those IDs
+    // Single optimized query that joins bookmarks with posts and includes profiles
     const { data, error } = await supabase
-      .from('posts')
+      .from('bookmarks')
       .select(`
-        id,
-        user_id,
-        content,
-        created_at,
-        media:media(id, media_url, media_type),
-        likes:likes(user_id),
-        reposts:reposts(user_id, created_at),
-        comments:comments!left(id),
-        bookmarks:bookmarks(user_id),
-        quoted_post_id,
-        quoted_post:quoted_post_id!left( 
-          id, 
+        posts!inner(
+          id,
           user_id,
           content,
           created_at,
+          profiles:user_id(id, name, avatar_url),
           media:media(id, media_url, media_type),
           likes:likes(user_id),
           reposts:reposts(user_id, created_at),
           comments:comments!left(id),
-          bookmarks:bookmarks(user_id) 
+          bookmarks:bookmarks(user_id),
+          quoted_post_id,
+          quoted_post:quoted_post_id!left( 
+            id, 
+            user_id,
+            content,
+            created_at,
+            profiles:user_id(id, name, avatar_url),
+            media:media(id, media_url, media_type),
+            likes:likes(user_id),
+            reposts:reposts(user_id, created_at),
+            comments:comments!left(id),
+            bookmarks:bookmarks(user_id) 
+          )
         )
       `)
-      .in('id', postIds)
-      .order('created_at', { ascending: false });
+      .eq('user_id', userId)
+      .order('created_at', { foreignTable: 'posts', ascending: false });
 
     if (error) {
       console.error("Error fetching bookmarked posts:", error);
       throw error;
     }
 
-    // Note: Profiles need to be fetched separately as in Feed.jsx
-    // This function only returns the raw post data.
+    // Extract posts from the bookmark structure
+    const posts = data?.map(bookmark => bookmark.posts) || [];
 
-    return { data, error: null };
+    return { data: posts, error: null };
 
   } catch (error) {
     console.error("Exception in getBookmarkedPosts:", error);
@@ -727,7 +720,7 @@ export const getBookmarks = async (userId) => {
 // Check if the current user is following a profile user
 export const checkIfFollowing = async (currentUserId, profileUserId) => {
   if (!currentUserId || !profileUserId) return false;
-  const { data, error, count } = await supabase
+  const { error, count } = await supabase
     .from('follows')
     .select('*', { count: 'exact', head: true }) // More efficient check
     .eq('follower_id', currentUserId)

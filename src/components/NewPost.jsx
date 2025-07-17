@@ -89,10 +89,13 @@ const NewPost = ({ onCreate, userAvatar }) => {
           alt="user avatar" 
           className="avatar"
         />
+        <label htmlFor="new-post-content" className="sr-only">What's happening?</label>
         <textarea
+          id="new-post-content"
           value={content}
           onChange={e => setContent(e.target.value)}
           placeholder="What's happening?"
+          aria-label="What's happening?"
         />
       </div>
       
